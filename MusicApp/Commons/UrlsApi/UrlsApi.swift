@@ -20,8 +20,15 @@ class UrlsApi: UrlsApiProtocol {
         return "https://accounts.spotify.com/api/token"
     }
     
-    func topTracks(artistId: String) -> String {
-        return baseUlr + "artists/" + artistId + "/top-tracks/"
+    func listOfCategories() -> String {
+        return baseUlr + "browse/categories"
     }
     
+    func topArtists() -> String {
+        return baseUlr + "me/top/artists"
+    }
+    
+    func artistsAlbums(artistId: String) -> String {
+        return baseUlr + "/artists/" + artistId + "/albums"
+    }
 }

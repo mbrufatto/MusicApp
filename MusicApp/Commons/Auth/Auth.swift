@@ -91,6 +91,8 @@ class Auth: AuthProtocol {
             UserDefaults.standard.set(tokenRefresh, forKey: "tokenRefresh")
         }
         
+        print(token) 
+        
     }
     
 }
