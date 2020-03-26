@@ -14,6 +14,16 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupComponents()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func setupComponents() {
+        self.loginButton.layer.cornerRadius = 26
     }
     
     @IBAction func tapLogin(_ sender: Any) {

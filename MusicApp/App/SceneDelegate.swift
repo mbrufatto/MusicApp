@@ -41,15 +41,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func loginScreen(_ storyboard: UIStoryboard) -> UINavigationController{
-        guard let rootVC = storyboard.instantiateViewController(identifier: "ListArtistsViewController") as? ListArtistsViewController else {
-            print("ViewController not found")
-            return UINavigationController()
-        }
-        return UINavigationController(rootViewController: rootVC)
+//        guard let rootVC = storyboard.instantiateViewController(identifier: "ListArtistsViewController") as? ListArtistsViewController else {
+//            print("ViewController not found")
+//            return UINavigationController()
+//        }
+//        return UINavigationController(rootViewController: rootVC)
+        return UINavigationController()
     }
     
     private func artistsList(_ storyboard: UIStoryboard) -> UINavigationController {
-        guard let rootVC = storyboard.instantiateViewController(identifier: "LoginViewController") as? ViewController else {
+        guard let rootVC = storyboard.instantiateViewController(identifier: "LoginViewController") as? LoginViewController else {
             print("ViewController not found")
             return UINavigationController()
         }
