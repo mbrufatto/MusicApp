@@ -22,7 +22,17 @@ class ArtistListViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        self.fetchTopArtists(offset: 0, limit: 20)
+        self.fetchTopArtists()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            if self.artistListViewModel.next != nil {
+                self.fetchTopArtists()
+            }
+        }
     }
     
     fileprivate func fetchArtistsByName(termSearch: String, offset: Int, limit: Int) {
@@ -36,8 +46,8 @@ class ArtistListViewController: UIViewController {
         }
     }
     
-    fileprivate func fetchTopArtists(offset: Int, limit: Int) {
-        artistListViewModel.loadTopArtists(offset: 0, limit: 20) { (result, error) in
+    fileprivate func fetchTopArtists() {
+        artistListViewModel.loadTopArtists() { (result, error) in
             if error == nil {
                 self.tableView.reloadData()
             } else {
