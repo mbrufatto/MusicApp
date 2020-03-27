@@ -16,6 +16,7 @@ class CategoryCell: UITableViewCell {
     
     fileprivate var artists: [ArtistsViewModel] = []
     
+    let layout = UICollectionViewFlowLayout()
     
     func configureCell(_ category: CategoryModel) {
         self.collectionView.dataSource = self
@@ -25,7 +26,6 @@ class CategoryCell: UITableViewCell {
         
         name.text = category.name
         
-        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
     
         self.collectionView.collectionViewLayout = layout

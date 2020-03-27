@@ -15,8 +15,12 @@ class ArtistListViewModel {
     
     private var genres: [String] = []
     private var categories: [CategoryModel] = []
+    private var artists: [ArtistsModel] = []
     
-    private var artists: [ArtistsViewModel] = []
+    var total: Int = 0
+    var next: String?
+    var limit: Int = 20
+    var offset: Int = 0
     
     func numberOfRows(_ section: Int) -> Int {
         return self.categories.count
@@ -60,7 +64,7 @@ class ArtistListViewModel {
         })
     }
     
-    func loadTopArtists(offset: Int, limit: Int, completion: @escaping(()?, Error?) -> Void) {
+    func loadTopArtists(completion: @escaping(()?, Error?) -> Void) {
         
         let auth: Auth = Auth(network: network, urlsApi: urlsApi)
         
@@ -69,16 +73,20 @@ class ArtistListViewModel {
             let url = self.urlsApi.topArtists()
             
             let parameters: Parameters = [
-                "limit": String(limit),
-                "offset": String(offset)
+                "limit": String(self.limit),
+                "offset": String(self.offset)
             ]
             
             self.network.request(url: url, method: .get, parameters: parameters, success: { response in
                 
                 do {
                     let topArtists = try JSONDecoder().decode(TopArtistsResponse.self, from: response)
-                    self.updateCategory(artists: topArtists.items)
-                    self.categories = self.artistsByCategory(artits: topArtists.items)
+                    self.offset += self.limit
+                    self.total = topArtists.total
+                    self.next = topArtists.next
+                    self.updateArtists(artits: topArtists.items)
+                    self.updateCategory()
+                    self.categories = self.artistsByCategory()
                     completion((),nil)
                 } catch let error {
                     print(error)
@@ -93,8 +101,8 @@ class ArtistListViewModel {
         })
     }
     
-    private func updateCategory(artists: [ArtistsModel]) {
-        let _ = artists.map { (artist) in
+    private func updateCategory() {
+        let _ = self.artists.map { (artist) in
             for genre in artist.genres {
                 if !self.genres.contains(where: { $0 == genre }) {
                     self.genres.append(genre)
@@ -103,9 +111,17 @@ class ArtistListViewModel {
         }
     }
     
-    private func artistsByCategory(artits: [ArtistsModel]) -> [CategoryModel] {
+    private func updateArtists(artits: [ArtistsModel]) {
+        for artist in artits {
+            if !self.artists.contains(where: { $0.id == artist.id }) {
+                self.artists.append(artist)
+            }
+        }
+    }
+    
+    private func artistsByCategory() -> [CategoryModel] {
         let categories = self.genres.map { (genre) -> CategoryModel in
-            let artistArray = artits.filter({ $0.genres.contains(where: { $0 == genre })})
+            let artistArray = self.artists.filter({ $0.genres.contains(where: { $0 == genre })})
             
             let artistsViewModel = artistArray.map{ (artist) -> ArtistsViewModel in
                 var imageUrl = PlaceholderNoImage.noImage640.rawValue

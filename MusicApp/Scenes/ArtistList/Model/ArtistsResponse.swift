@@ -15,4 +15,5 @@ struct TopArtistsResponse: Codable {
     let limit: Int
     let offset: Int
     let total: Int
+    let next: String?
 }
