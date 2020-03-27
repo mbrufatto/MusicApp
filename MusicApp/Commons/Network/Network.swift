@@ -117,6 +117,7 @@ class Network: NetworkProtocol {
         
         if let values = response.result.value {
             print(String(data: try! JSONSerialization.data(withJSONObject: values, options: .prettyPrinted), encoding: .utf8)!)
+            print("-----------------------------")
         }
         
     }

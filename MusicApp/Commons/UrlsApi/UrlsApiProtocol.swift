@@ -11,5 +11,7 @@ import Foundation
 protocol UrlsApiProtocol: class {
     func search() -> String
     func token() -> String
-    func topTracks(artistId: String) -> String
+    func listOfCategories() -> String
+    func topArtists() -> String
+    func artistsAlbums(artistId: String) -> String
 }
